@@ -1,3 +1,18 @@
 <resources>
-    <string name="app_name">Lets fly</string>
+    <string name="app_name">Let\'s Fly</string>
+
+    <string name="tab_outbound">Ida</string>
+    <string name="tab_inbound">Volta</string>
+    <string name="time">Horário</string>
+    <string name="stops">Paradas</string>
+    <string name="order_by">Order por</string>
+
+    <string name="time_mask" translatable="false">HH:mm</string>
+    <string name="price_flight_format">R$ %1$d</string>
+
+    <string-array name="order_by_options">
+        <item>Maior preço</item>
+        <item>Menor preço</item>
+        <item>Menor preço e menor tempo de voo</item>
+    </string-array>
 </resources>

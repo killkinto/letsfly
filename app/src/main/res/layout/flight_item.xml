@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/txt_departure_arrival"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="12:00-13:00"/>
+
+        <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/txt_cia"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/txt_departure_arrival"
+                app:layout_constraintTop_toBottomOf="@+id/txt_departure_arrival"
+                tools:text="Azul"/>
+
+        <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/txt_duration"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_main"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/txt_departure_arrival"
+                tools:text="1h 20min"/>
+
+        <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/txt_from_to"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/txt_duration"
+                app:layout_constraintStart_toStartOf="@id/txt_duration"
+                tools:text="CNF-VIX"/>
+
+        <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/txt_stops"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_main"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/txt_duration"
+                tools:text="1 parada"/>
+
+        <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/txt_price_total"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/txt_stops"
+                app:layout_constraintStart_toStartOf="@id/txt_stops"
+                tools:text="R$ 255,69"/>
+    </android.support.constraint.ConstraintLayout>
+</layout>
