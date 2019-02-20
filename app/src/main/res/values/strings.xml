@@ -10,6 +10,8 @@
     <string name="time_mask" translatable="false">HH:mm</string>
     <string name="price_flight_format">R$ %1$d</string>
 
+    <string name="msg_no_flights">Nenhum voo encontrado!</string>
+
     <string-array name="order_by_options">
         <item>Maior preço</item>
         <item>Menor preço</item>

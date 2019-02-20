@@ -4,25 +4,47 @@ import android.content.Context
 import android.databinding.ObservableArrayList
 import android.databinding.ObservableField
 import com.killkinto.letsfly.data.Flight
-import com.killkinto.letsfly.data.FlightRepository
 
-class FlightViewModel(val repository: FlightRepository, val context: Context) {
+class FlightViewModel(val context: Context) {
 
-    val flightOutbound = ObservableArrayList<Flight>()
-    val flightInbound = ObservableArrayList<Flight>()
+    val flights = ObservableArrayList<Flight>()
 
     val time = ObservableField<String>()
-    val stops = ObservableField<String>()
+    val mStops = ObservableField<String>()
 
-    fun loadFlightsData() {
-        repository.list({ outbound: List<Flight>?, inbound: List<Flight>? ->
-            if (outbound != null) {
-                flightOutbound.addAll(outbound)
-            }
-            if (inbound != null) {
-                flightInbound.addAll(inbound)
-            }
-        },
-            { })
+    var items: List<Flight> = mutableListOf()
+        set(values) {
+            flights.addAll(values)
+        }
+
+    private var mHours: Int? = null
+    private var mMinutes: Int? = null
+    private var mStopsFilter: Int? = null
+
+    fun queryByStops(stops: Int) {
+        mStopsFilter = stops
+        executeFilter()
     }
+
+    fun queryByTime(hours: Int, minutes: Int) {
+        mHours = hours
+        mMinutes = minutes
+        executeFilter()
+    }
+
+    private fun executeFilter() {
+        flights.clear()
+        items.filterTo(flights) {
+            if (mStops.get().isNullOrBlank()) {
+                it.stops == stops
+            } else {
+                true//it.stops == stops
+            }
+        }
+    }
+
+
+
+
+
 }

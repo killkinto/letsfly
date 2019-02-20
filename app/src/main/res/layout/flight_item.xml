@@ -8,54 +8,74 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+        <android.support.constraint.Guideline
+                android:id="@+id/gln_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.33"/>
+
+        <android.support.constraint.Guideline
+                android:id="@+id/gln_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.66"/>
+
         <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/txt_departure_arrival"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/gln_1"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="12:00-13:00"/>
 
         <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/txt_cia"
-                android:layout_width="0dp"
+                android:id="@+id/txt_stops"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/txt_departure_arrival"
                 app:layout_constraintTop_toBottomOf="@+id/txt_departure_arrival"
-                tools:text="Azul"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/gln_1"
+                tools:text="1 parada"/>
 
         <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/txt_duration"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_main"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@id/txt_departure_arrival"
+                app:layout_constraintStart_toEndOf="@id/gln_1"
+                app:layout_constraintEnd_toStartOf="@id/gln_2"
                 tools:text="1h 20min"/>
 
         <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/txt_from_to"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/txt_duration"
-                app:layout_constraintStart_toStartOf="@id/txt_duration"
+                app:layout_constraintStart_toStartOf="@id/gln_1"
+                app:layout_constraintEnd_toEndOf="@id/gln_2"
                 tools:text="CNF-VIX"/>
 
         <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/txt_stops"
-                android:layout_width="0dp"
+                android:id="@+id/txt_cia"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_main"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@id/txt_duration"
-                tools:text="1 parada"/>
+                app:layout_constraintStart_toStartOf="@id/gln_2"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="Azul"/>
 
         <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/txt_price_total"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/txt_stops"
-                app:layout_constraintStart_toStartOf="@id/txt_stops"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/txt_cia"
+                app:layout_constraintStart_toStartOf="@id/gln_2"
+                app:layout_constraintEnd_toEndOf="parent"
                 tools:text="R$ 255,69"/>
     </android.support.constraint.ConstraintLayout>
 </layout>

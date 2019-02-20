@@ -6,10 +6,10 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class FlightsApiDataSource(val flightsApi: FlightsApi) : FlightDataSource {
+class FlightsApiDataSource(private val flightsApi: FlightsApi) : FlightDataSource {
 
     companion object {
-        val FLIGHT_API_TESTE_URL = "https://vcugj6hmt5.execute-api.us-east-1.amazonaws.com"
+        const val FLIGHT_API_TESTE_URL = "https://vcugj6hmt5.execute-api.us-east-1.amazonaws.com"
     }
 
     override fun list(sucess: (List<Flight>?, List<Flight>?) -> Unit, failure: () -> Unit) {

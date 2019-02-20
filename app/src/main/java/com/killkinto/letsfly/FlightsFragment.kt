@@ -22,11 +22,6 @@ class FlightsFragment : Fragment() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        viewModel.loadFlightsData()
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val binding: FragmentFlightsBinding = FragmentFlightsBinding.inflate(inflater, container, false)
         binding.viewmodel = viewModel

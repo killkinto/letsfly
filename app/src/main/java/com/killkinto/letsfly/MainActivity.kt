@@ -1,11 +1,12 @@
 package com.killkinto.letsfly
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
+import android.support.v7.app.AppCompatActivity
 import com.google.gson.GsonBuilder
+import com.killkinto.letsfly.data.Flight
 import com.killkinto.letsfly.data.FlightRepository
 import com.killkinto.letsfly.flight.FlightViewModel
 import com.killkinto.letsfly.remote.FlightsApi
@@ -16,6 +17,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var mFragmentAdapter: PagerAdapter
+    private lateinit var repository: FlightRepository
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
@@ -24,9 +28,28 @@ class MainActivity : AppCompatActivity() {
         setupViewPager()
     }
 
+    override fun onStart() {
+        super.onStart()
+        loadFlightsData()
+    }
+
+    fun loadFlightsData() {
+        repository.list({ outbound: List<Flight>?, inbound: List<Flight>? ->
+            if (outbound != null) {
+                val fragment: FlightsFragment = mFragmentAdapter.getItem(0) as FlightsFragment
+                fragment.viewModel.items = outbound
+            }
+            if (inbound != null) {
+                val fragment: FlightsFragment = mFragmentAdapter.getItem(1) as FlightsFragment
+                fragment.viewModel.items = inbound
+            }
+        },
+            { })
+    }
+
     private fun setupViewPager() {
-        val fragmentAdapter = PagerAdapter(supportFragmentManager, createViewModel())
-        viewpager.adapter = fragmentAdapter
+        mFragmentAdapter = PagerAdapter(supportFragmentManager, createViewModel())
+        viewpager.adapter = mFragmentAdapter
         tabs.setupWithViewPager(viewpager)
     }
 
@@ -35,8 +58,8 @@ class MainActivity : AppCompatActivity() {
         val retrofit = Retrofit.Builder().baseUrl(FlightsApiDataSource.FLIGHT_API_TESTE_URL)
             .addConverterFactory(GsonConverterFactory.create(gson)).build()
         val flightsApiDataSource = FlightsApiDataSource(retrofit.create(FlightsApi::class.java))
-        val repository = FlightRepository(flightsApiDataSource)
-        return FlightViewModel(repository, applicationContext)
+        repository = FlightRepository(flightsApiDataSource)
+        return FlightViewModel(applicationContext)
     }
 }
 
