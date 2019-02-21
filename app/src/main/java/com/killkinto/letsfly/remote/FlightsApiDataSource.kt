@@ -2,6 +2,7 @@ package com.killkinto.letsfly.remote
 
 import com.killkinto.letsfly.data.Flight
 import com.killkinto.letsfly.data.FlightDataSource
+import com.killkinto.letsfly.data.Ota
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -19,7 +20,17 @@ class FlightsApiDataSource(private val flightsApi: FlightsApi) : FlightDataSourc
             override fun onResponse(call: Call<FlightsApiResponse>, response: Response<FlightsApiResponse>) {
                 if (response.isSuccessful) {
                     val flightsOutbound = response.body()?.outbound
+                    flightsOutbound!!.forEach {
+                        if (it.pricing.ota == null) {
+                            it.pricing.ota = Ota(0.0)
+                        }
+                    }
                     val flightsInbound = response.body()?.inbound
+                    flightsInbound!!.forEach {
+                        if (it.pricing.ota == null) {
+                            it.pricing.ota = Ota(0.0)
+                        }
+                    }
 
                     sucess(flightsOutbound, flightsInbound)
                 } else {

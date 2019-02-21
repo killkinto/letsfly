@@ -8,7 +8,7 @@
     <string name="order_by">Order por</string>
 
     <string name="time_mask" translatable="false">HH:mm</string>
-    <string name="price_flight_format">R$ %1$d</string>
+    <string name="price_flight_format">R$ %1$s</string>
 
     <string name="msg_no_flights">Nenhum voo encontrado!</string>
 

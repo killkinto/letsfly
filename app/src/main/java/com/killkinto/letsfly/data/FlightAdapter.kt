@@ -47,12 +47,17 @@ class FlightAdapter(var items: List<Flight>, var context: Context) : RecyclerVie
             durationStr += "$duration min"
             val fromTo = "${flight.from}-${flight.to}"
             val stops = "${flight.stops} parada(s)"
+            var saleTotal = "0,00"
+            if (flight.pricing.ota != null) {
+                saleTotal = flight.pricing.ota!!.saleTotal.toString().replace('.', ',')
+            }
 
             binding.txtDepartureArrival.text = time
             binding.txtDuration.text = durationStr
             binding.txtFromTo.text = fromTo
             binding.txtStops.text = stops
-            binding.txtPriceTotal.text = context.getString(R.string.price_flight_format, flight.saleTotal)
+            binding.txtCia.text = flight.airline.capitalize()
+            binding.txtPriceTotal.text = context.getString(R.string.price_flight_format, saleTotal)
             binding.executePendingBindings()
         }
     }
