@@ -1,13 +1,12 @@
 package com.killkinto.letsfly.flight
 
-import android.content.Context
 import android.databinding.Observable
 import android.databinding.ObservableArrayList
 import android.databinding.ObservableField
-import android.databinding.ObservableInt
 import com.killkinto.letsfly.data.Flight
+import java.util.*
 
-class FlightViewModel(val context: Context) {
+class FlightViewModel {
 
     val flights = ObservableArrayList<Flight>()
 
@@ -39,19 +38,25 @@ class FlightViewModel(val context: Context) {
     fun queryByTime(hours: Int, minutes: Int) {
         mHours = hours
         mMinutes = minutes
+        time.set(String.format("%02d:%02d", mHours, mMinutes))
         executeFilter()
     }
 
     private fun executeFilter() {
         flights.clear()
         items.filterTo(flights) {
-            if (mStopsFilter != null) {
-                it.stops == mStopsFilter
-            } else {
-                true//it.stops == stops
-            }
+            (mStopsFilter == null || it.stops == mStopsFilter)
+                    && filterByTime(it) }
+    }
+
+    private fun filterByTime(flight: Flight) : Boolean {
+        if (mHours != null && mMinutes != null) {
+            val calendar = Calendar.getInstance()
+            calendar.time = flight.departureDate
+            return calendar.get(Calendar.HOUR_OF_DAY) == mHours
+                    && calendar.get(Calendar.MINUTE) == mMinutes
         }
-        orderBy(mOrder)
+        return true
     }
 
     fun orderBy(position: Int) {

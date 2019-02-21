@@ -5,7 +5,8 @@
     <string name="tab_inbound">Volta</string>
     <string name="time">Horário</string>
     <string name="stops">Paradas</string>
-    <string name="order_by">Order por</string>
+    <string name="filter_by">Friltar por</string>
+    <string name="order_by">Ordenar por</string>
 
     <string name="time_mask" translatable="false">HH:mm</string>
     <string name="price_flight_format">R$ %1$s</string>

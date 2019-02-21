@@ -40,14 +40,15 @@ class ExampleInstrumentedTest {
 
     @Test
     fun filtrarPorHorario() {
-        onView(withId(R.id.tpk_time)).perform(click())
+        onView(withId(R.id.edt_time)).perform(click())
         onView(withId(android.R.id.button1)).perform(click())
     }
 
     @Test
     fun ordernarPor() {
         onView(withId(R.id.spn_order_by)).perform(click())
-        onView(withText("teste")).inRoot(RootMatchers.isPlatformPopup()).perform(click())
+        onView(withText(rule.activity.resources.getStringArray(R.array.order_by_options)[0]))
+            .inRoot(RootMatchers.isPlatformPopup()).perform(click())
     }
 
     private fun swipeLeftTab() {

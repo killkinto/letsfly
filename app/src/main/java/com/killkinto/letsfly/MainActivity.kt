@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
             .addConverterFactory(GsonConverterFactory.create(gson)).build()
         val flightsApiDataSource = FlightsApiDataSource(retrofit.create(FlightsApi::class.java))
         mRepository = FlightRepository(flightsApiDataSource)
-        return FlightViewModel(applicationContext)
+        return FlightViewModel()
     }
 }
 
