@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import com.google.gson.GsonBuilder
 import com.killkinto.letsfly.data.Flight
 import com.killkinto.letsfly.data.FlightRepository
@@ -19,7 +20,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 class MainActivity : AppCompatActivity() {
 
     private lateinit var mFragmentAdapter: PagerAdapter
-    private lateinit var mRepository: FlightRepository
     private lateinit var mOutboundFlightsFragment: FlightsFragment
     private lateinit var mInboundFlightsFragment: FlightsFragment
 
@@ -37,37 +37,43 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun loadFlightsData() {
-        mRepository.list({ outbound: List<Flight>?, inbound: List<Flight>? ->
+        pgb_loading.visibility = View.VISIBLE
+        createRepository().list({ outbound: List<Flight>?, inbound: List<Flight>? ->
             if (outbound != null) {
                 mOutboundFlightsFragment.viewModel.replaceItens(outbound)
             }
             if (inbound != null) {
                 mInboundFlightsFragment.viewModel.replaceItens(inbound)
             }
+            pgb_loading.visibility = View.GONE
         },
-            { })
+            {
+                pgb_loading.visibility = View.GONE
+            })
     }
 
     private fun setupViewPager() {
-        mOutboundFlightsFragment = FlightsFragment.newInstance(createViewModel())
-        mInboundFlightsFragment = FlightsFragment.newInstance(createViewModel())
-        mFragmentAdapter = PagerAdapter(supportFragmentManager,
-            listOf(mOutboundFlightsFragment, mInboundFlightsFragment), applicationContext)
+        mOutboundFlightsFragment = FlightsFragment.newInstance(FlightViewModel(applicationContext))
+        mInboundFlightsFragment = FlightsFragment.newInstance(FlightViewModel(applicationContext))
+        mFragmentAdapter = PagerAdapter(
+            supportFragmentManager,
+            listOf(mOutboundFlightsFragment, mInboundFlightsFragment), applicationContext
+        )
         viewpager.adapter = mFragmentAdapter
         tabs.setupWithViewPager(viewpager)
     }
 
-    private fun createViewModel(): FlightViewModel {
+    private fun createRepository(): FlightRepository {
         val gson = GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create()
         val retrofit = Retrofit.Builder().baseUrl(FlightsApiDataSource.FLIGHT_API_TESTE_URL)
             .addConverterFactory(GsonConverterFactory.create(gson)).build()
         val flightsApiDataSource = FlightsApiDataSource(retrofit.create(FlightsApi::class.java))
-        mRepository = FlightRepository(flightsApiDataSource)
-        return FlightViewModel()
+        return FlightRepository(flightsApiDataSource)
     }
 }
 
-class PagerAdapter(fm: FragmentManager, private val fragments: List<Fragment>, var context: Context) : FragmentPagerAdapter(fm) {
+class PagerAdapter(fm: FragmentManager, private val fragments: List<Fragment>, var context: Context) :
+    FragmentPagerAdapter(fm) {
     override fun getItem(position: Int): Fragment {
         return fragments[position]
     }

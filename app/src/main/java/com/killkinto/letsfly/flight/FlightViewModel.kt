@@ -1,16 +1,20 @@
 package com.killkinto.letsfly.flight
 
+import android.content.Context
 import android.databinding.Observable
 import android.databinding.ObservableArrayList
+import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
+import com.killkinto.letsfly.R
 import com.killkinto.letsfly.data.Flight
 import java.util.*
 
-class FlightViewModel {
+class FlightViewModel(context: Context) {
 
     val flights = ObservableArrayList<Flight>()
+    val noFlights = ObservableBoolean(false)
 
-    val time = ObservableField<String>()
+    val time = ObservableField<String>(context.getString(R.string.time))
     val stops = ObservableField<String>()
 
     private var mHours: Int? = null
@@ -23,6 +27,7 @@ class FlightViewModel {
     fun replaceItens(list: List<Flight>) {
         items = list
         flights.addAll(items.sortedBy { it.pricing.ota!!.saleTotal })
+        noFlights.set(items.isEmpty())
     }
 
     init {
@@ -46,10 +51,12 @@ class FlightViewModel {
         flights.clear()
         items.filterTo(flights) {
             (mStopsFilter == null || it.stops == mStopsFilter)
-                    && filterByTime(it) }
+                    && filterByTime(it)
+        }
+        noFlights.set(flights.isEmpty())
     }
 
-    private fun filterByTime(flight: Flight) : Boolean {
+    private fun filterByTime(flight: Flight): Boolean {
         if (mHours != null && mMinutes != null) {
             val calendar = Calendar.getInstance()
             calendar.time = flight.departureDate
@@ -63,7 +70,7 @@ class FlightViewModel {
         var items: List<Flight>
         mOrder = position
 
-        when(position) {
+        when (position) {
             0 -> {
                 items = flights.sortedByDescending { it.pricing.ota!!.saleTotal }
                 flights.clear()

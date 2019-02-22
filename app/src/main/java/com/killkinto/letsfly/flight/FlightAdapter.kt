@@ -1,4 +1,4 @@
-package com.killkinto.letsfly.data
+package com.killkinto.letsfly.flight
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -6,13 +6,15 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.killkinto.letsfly.R
+import com.killkinto.letsfly.data.Flight
 import com.killkinto.letsfly.databinding.FlightItemBinding
 import java.text.SimpleDateFormat
 
-class FlightAdapter(var items: List<Flight>, var context: Context) : RecyclerView.Adapter<FlightAdapter.ViewHolder>(), AdapterItemsContract {
+class FlightAdapter(var items: List<Flight>, var context: Context) : RecyclerView.Adapter<FlightAdapter.ViewHolder>(),
+    AdapterItemsContract {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val inflater =  LayoutInflater.from(parent.context)
+        val inflater = LayoutInflater.from(parent.context)
         val binding: FlightItemBinding = FlightItemBinding.inflate(inflater, parent, false)
         return ViewHolder(binding, context)
     }
@@ -31,7 +33,8 @@ class FlightAdapter(var items: List<Flight>, var context: Context) : RecyclerVie
         notifyDataSetChanged()
     }
 
-    class ViewHolder(private val binding: FlightItemBinding, private val context: Context) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(private val binding: FlightItemBinding, private val context: Context) :
+        RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SimpleDateFormat")
         fun bind(flight: Flight) {
             val departureTime = SimpleDateFormat(context.getString(R.string.time_mask)).format(flight.departureDate)

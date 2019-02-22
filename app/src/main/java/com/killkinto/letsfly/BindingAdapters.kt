@@ -2,7 +2,7 @@ package com.killkinto.letsfly
 
 import android.databinding.BindingAdapter
 import android.support.v7.widget.RecyclerView
-import com.killkinto.letsfly.data.AdapterItemsContract
+import com.killkinto.letsfly.flight.AdapterItemsContract
 
 class BindingAdapters {
     companion object {

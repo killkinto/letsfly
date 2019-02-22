@@ -1,8 +1,7 @@
 package com.killkinto.letsfly
 
-
-import android.support.test.espresso.Espresso.onData
 import android.support.test.espresso.Espresso.onView
+import android.support.test.espresso.action.ViewActions
 import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.action.ViewActions.scrollTo
 import android.support.test.espresso.matcher.ViewMatchers.*
@@ -25,66 +24,51 @@ class MainActivityTest {
 
     @Rule
     @JvmField
-    var mActivityTestRule = ActivityTestRule(MainActivity::class.java)
+    var rule = ActivityTestRule(MainActivity::class.java)
 
     @Test
-    fun mainActivityTest() {
-        val appCompatSpinner = onView(
+    fun filtrarVoos() {
+        onView(
             allOf(
-                withId(R.id.spn_order_by),
+                withId(R.id.btn_time),
+                childAtPosition(withParent(withId(R.id.viewpager)), 1),
+                isDisplayed()
+            )
+        ).perform(click())
+
+        onView(
+            allOf(
+                withId(android.R.id.button1),
                 childAtPosition(
-                    withParent(withId(R.id.viewpager)),
-                    4
+                    childAtPosition(
+                        withClassName(`is`("android.widget.ScrollView")), 0
+                    ), 3
+                )
+            )
+        ).perform(scrollTo(), click())
+
+        onView(
+            allOf(
+                withId(R.id.viewpager),
+                childAtPosition(
+                    childAtPosition(withId(android.R.id.content), 0),
+                    1
                 ),
                 isDisplayed()
             )
-        )
-        appCompatSpinner.perform(click())
+        ).perform(ViewActions.swipeLeft())
 
-        val appCompatTextView = onData(anything())
-            .inAdapterView(
-                childAtPosition(
-                    withClassName(`is`("android.widget.PopupWindow$PopupBackgroundView")),
-                    0
-                )
-            )
-            .atPosition(2)
-        appCompatTextView.perform(click())
-
-        val textInputEditText = onView(
+        onView(
             allOf(
-                withId(R.id.edt_time),
-                childAtPosition(
-                    childAtPosition(
-                        withId(R.id.edt_time_label),
-                        0
-                    ),
-                    0
-                ),
+                childAtPosition(childAtPosition(withId(R.id.edt_stops), 0), 0),
                 isDisplayed()
             )
-        )
-        textInputEditText.perform(click())
-
-        val appCompatButton = onView(
-            allOf(
-                withId(android.R.id.button1), withText("OK"),
-                childAtPosition(
-                    childAtPosition(
-                        withClassName(`is`("android.widget.ScrollView")),
-                        0
-                    ),
-                    3
-                )
-            )
-        )
-        appCompatButton.perform(scrollTo(), click())
+        ).perform(ViewActions.replaceText("1"), ViewActions.closeSoftKeyboard())
     }
 
     private fun childAtPosition(
         parentMatcher: Matcher<View>, position: Int
     ): Matcher<View> {
-
         return object : TypeSafeMatcher<View>() {
             override fun describeTo(description: Description) {
                 description.appendText("Child at position $position in parent ")
